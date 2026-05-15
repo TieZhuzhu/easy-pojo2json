@@ -1,6 +1,6 @@
 # Easy POJO to JSON Changelog
 
-## [2.1.2]
+## [1.0.0]
 ### Add
 - Support for @JsonNaming
 - Add Lower Case expression

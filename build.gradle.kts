@@ -1,5 +1,6 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
+import org.gradle.jvm.tasks.Jar
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
@@ -14,7 +15,7 @@ plugins {
 }
 
 group = "com.augustlee.tool"
-version = "2.1.2"
+version = "1.0.0"
 
 // Configure project's dependencies
 repositories {
@@ -131,6 +132,40 @@ tasks {
         enabled = false
     }
 
+    register<Jar>("standalonePluginJar") {
+        group = "build"
+        description = "Build a standalone installable plugin jar with runtime dependencies included."
+
+        dependsOn("composedJar")
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+        archiveBaseName.set(project.name)
+        archiveVersion.set(project.version.toString())
+        archiveClassifier.set("standalone")
+
+        // 先展开插件自身最终产物，保留 plugin.xml 与已编译类。
+        from({
+            zipTree(layout.buildDirectory.file("libs/${project.name}-${project.version}.jar").get().asFile)
+        })
+
+        // 再合入运行时依赖，让单个 jar 安装时也能完整运行。
+        from({
+            configurations.runtimeClasspath.get()
+                .filter { it.name.endsWith(".jar") }
+                .map { zipTree(it) }
+        })
+
+        exclude(
+            "META-INF/*.SF",
+            "META-INF/*.DSA",
+            "META-INF/*.RSA"
+        )
+    }
+
+    named("buildPlugin") {
+        finalizedBy("standalonePluginJar")
+    }
+
     test {
         // 这里要签出一个完整的 Intellij IC 作为JVM语言的测试环境，并且要注意版本与 version.set("2022.3") 分发环境相同 。这个配置真蠢。
         // https://plugins.jetbrains.com/docs/intellij/testing-faq.html#how-to-test-a-jvm-language
@@ -143,5 +178,4 @@ tasks {
         println(changelog.renderItem(changelog.getLatest(), Changelog.OutputType.MARKDOWN))
     }
 }
-
 
