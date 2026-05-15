@@ -1,0 +1,11 @@
+.idea
+.intellijPlatform
+.gradle/
+*.iml
+*/target/
+logs
+/build
+/java
+.keys
+gradle.properties
+gradle/
