@@ -8,4 +8,3 @@ logs
 /java
 .keys
 gradle.properties
-gradle/
