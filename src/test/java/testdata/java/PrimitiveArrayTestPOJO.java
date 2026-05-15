@@ -1,5 +1,8 @@
 package testdata.java;
 
+/**
+ * 基础原始类型数组测试样例。
+ */
 public class PrimitiveArrayTestPOJO {
 
     private byte[] bytes = {0};
@@ -19,5 +22,4 @@ public class PrimitiveArrayTestPOJO {
     private boolean[] booleans = {false};
 
     private char[] chars = {'c'};
-
 }

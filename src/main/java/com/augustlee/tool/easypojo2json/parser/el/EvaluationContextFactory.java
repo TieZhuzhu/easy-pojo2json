@@ -10,13 +10,16 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * SpEL 运行上下文工厂。
+ * <p>
+ * 负责为字段名和默认值表达式准备变量环境。
+ */
 public class EvaluationContextFactory {
 
     private static final Map<Class<?>, PresetTypeValue> presetTypeValueMap;
 
     static {
-
-
         Reflections reflections = new Reflections(PresetTypeValue.class.getPackageName());
 
         presetTypeValueMap = reflections.getSubTypesOf(PresetTypeValue.class)
@@ -32,6 +35,18 @@ public class EvaluationContextFactory {
                 }));
     }
 
+    /**
+     * 工具类不允许实例化。
+     */
+    private EvaluationContextFactory() {
+    }
+
+    /**
+     * 创建用于执行字段名/字段值表达式的上下文。
+     *
+     * @param rootObject 当前字段模型，可为空
+     * @return SpEL 上下文
+     */
     public static EvaluationContext newEvaluationContext(POJOVariable rootObject) {
         EvaluationContext context = new StandardEvaluationContext();
         context.setVariable("field", rootObject);
@@ -53,6 +68,11 @@ public class EvaluationContextFactory {
         return context;
     }
 
+    /**
+     * 初始化默认类型表达式映射。
+     *
+     * @return 默认映射
+     */
     public static Map<String, String> initExpressionMap() {
         Map<String, String> map = new LinkedHashMap<>();
 
@@ -80,6 +100,11 @@ public class EvaluationContextFactory {
         return map;
     }
 
+    /**
+     * 初始化默认 JSON 字段名表达式。
+     *
+     * @return 默认字段名表达式
+     */
     public static String initJsonKeysExpression() {
         return "#{#field.getName()}";
     }

@@ -4,6 +4,9 @@ package testdata.java;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * 字段重命名注解测试样例。
+ */
 public class JsonPropertyTestPOJO {
 
     @JsonProperty
@@ -14,5 +17,4 @@ public class JsonPropertyTestPOJO {
 
     @JSONField(name = "pass")
     private String password;
-
 }

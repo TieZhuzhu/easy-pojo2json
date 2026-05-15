@@ -23,8 +23,18 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * 项目视图右键菜单动作。
+ * <p>
+ * 该入口既支持单文件直接复制 JSON，也支持多文件批量转换后写入 Scratches。
+ */
 public class ProjectViewPopupMenuAction extends POJO2JSONAction {
 
+    /**
+     * 控制项目视图右键菜单的可见性。
+     *
+     * @param e IDEA 动作事件
+     */
     @Override
     public void update(@NotNull AnActionEvent e) {
         final Project project = e.getProject();
@@ -39,6 +49,14 @@ public class ProjectViewPopupMenuAction extends POJO2JSONAction {
         e.getPresentation().setEnabledAndVisible(menuAllowed);
     }
 
+    /**
+     * 执行项目视图中的单文件或批量转换。
+     * <p>
+     * 单文件场景直接复用父类动作逻辑并复制到剪贴板；
+     * 多文件场景则将每个转换结果输出为 Scratch JSON 文件，并在有成功结果时自动打开首个文件。
+     *
+     * @param e IDEA 动作事件
+     */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         final Project project = e.getProject();
@@ -53,7 +71,6 @@ public class ProjectViewPopupMenuAction extends POJO2JSONAction {
 
         Arrays.stream(selectFiles)
                 .map(virtualFile -> {
-
                     final PsiFile psiFile = PsiUtil.getPsiFile(project, virtualFile);
                     if (!uastSupported(psiFile)) {
                         warnMap.put(psiFile.getName(), "This file can't convert to json.");
@@ -79,15 +96,14 @@ public class ProjectViewPopupMenuAction extends POJO2JSONAction {
                                 JsonLanguage.INSTANCE,
                                 json,
                                 ScratchFileService.Option.create_if_missing);
-
                     } catch (KnownException ex) {
                         warnMap.put(psiFile.getName(), ex.getMessage());
                         return null;
                     }
-
                 })
+                // 先完整收集所有成功结果，再决定是否打开第一个生成的 Scratch 文件。
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList()) // 这里归集以结束上一个表达式，否则 findFirst 在表达式的优先级会被提前
+                .collect(Collectors.toList())
                 .stream()
                 .findFirst()
                 .ifPresent(virtualFile -> {

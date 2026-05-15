@@ -2,6 +2,9 @@ package testdata.java;
 
 import java.util.*;
 
+/**
+ * 集合与可迭代类型测试样例。
+ */
 public class IterableTestPOJO {
 
     private Iterable<Integer> iterable = new ArrayList<>();
@@ -19,5 +22,4 @@ public class IterableTestPOJO {
     private HashSet<Integer> hashSet = new HashSet<>();
 
     private LinkedHashSet<Integer> linkedHashSet = new LinkedHashSet<>();
-
 }

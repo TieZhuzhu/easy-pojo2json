@@ -12,8 +12,12 @@ import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * 特殊对象类型测试样例。
+ * <p>
+ * 覆盖包装类型、时间类型、UUID 以及 Jackson JSON 节点对象。
+ */
 public class SpecialObjectTestPOJO {
-
 
     private Byte aByte = 0;
 

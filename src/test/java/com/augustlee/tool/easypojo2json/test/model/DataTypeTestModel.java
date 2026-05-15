@@ -15,17 +15,29 @@ import java.util.stream.StreamSupport;
 
 import static junit.framework.Assert.*;
 
+/**
+ * 数据类型相关能力的断言模型。
+ */
 public class DataTypeTestModel extends TestModel {
 
     private final BigDecimal zero = BigDecimal.ZERO.setScale(2, RoundingMode.UNNECESSARY);
 
-
+    /**
+     * 创建数据类型断言模型。
+     *
+     * @param testCase 测试基类
+     */
     public DataTypeTestModel(MyTestCase testCase) {
         super(testCase);
     }
 
+    /**
+     * 验证基础原始类型默认值。
+     *
+     * @param fileName 测试文件名
+     * @param action   执行动作
+     */
     public void testPrimitiveTestPOJO(String fileName, AnAction action) {
-
         JsonNode result = testCase.testAction(fileName, action);
 
         assertEquals(0, result.get("aByte").intValue());
@@ -38,6 +50,12 @@ public class DataTypeTestModel extends TestModel {
         assertFalse(result.get("aBoolean").booleanValue());
     }
 
+    /**
+     * 验证基础数组类型默认值。
+     *
+     * @param fileName 测试文件名
+     * @param action   执行动作
+     */
     public void testPrimitiveArrayTestPOJO(String fileName, AnAction action) {
         JsonNode result = testCase.testAction(fileName, action);
 
@@ -59,12 +77,24 @@ public class DataTypeTestModel extends TestModel {
                 StreamSupport.stream(result.get("booleans").spliterator(), false).map(JsonNode::booleanValue).toArray(Boolean[]::new));
     }
 
+    /**
+     * 验证枚举默认值。
+     *
+     * @param fileName 测试文件名
+     * @param action   执行动作
+     */
     public void testEnumTestPOJO(String fileName, AnAction action) {
         JsonNode result = testCase.testAction(fileName, action);
 
         assertEquals(EnumTestPOJO.Type.TYPE_A.name(), result.get("type").textValue());
     }
 
+    /**
+     * 验证集合与迭代类型默认值。
+     *
+     * @param fileName 测试文件名
+     * @param action   执行动作
+     */
     public void testIterableTestPOJO(String fileName, AnAction action) {
         JsonNode result = testCase.testAction(fileName, action);
 
@@ -83,6 +113,12 @@ public class DataTypeTestModel extends TestModel {
                 .contains(0));
     }
 
+    /**
+     * 验证泛型与多层嵌套泛型解析。
+     *
+     * @param fileName 测试文件名
+     * @param action   执行动作
+     */
     public void testGenericTestPOJO(String fileName, AnAction action) {
         JsonNode result = testCase.testAction(fileName, action);
 
@@ -144,6 +180,12 @@ public class DataTypeTestModel extends TestModel {
         assertTrue(g.get("c").isArray());
     }
 
+    /**
+     * 验证特殊对象、时间与 JSON 节点类型默认值。
+     *
+     * @param fileName 测试文件名
+     * @param action   执行动作
+     */
     public void testSpecialObjectTestPOJO(String fileName, AnAction action) {
         JsonNode result = testCase.testAction(fileName, action);
 
@@ -178,5 +220,4 @@ public class DataTypeTestModel extends TestModel {
         assertTrue(result.get("objectNode").isObject());
         assertTrue(result.get("arrayNode").isArray());
     }
-
 }

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 泛型与嵌套泛型测试样例。
+ */
 public class GenericTestPOJO {
 
     private List listNonGeneric = new ArrayList();
@@ -46,6 +49,11 @@ public class GenericTestPOJO {
 
     private Generic<?> genericGenericObject = new Generic<>();
 
+    /**
+     * 单泛型内部类测试样例。
+     *
+     * @param <T> 泛型数据类型
+     */
     public class Generic<T> {
 
         private String username;
@@ -53,6 +61,9 @@ public class GenericTestPOJO {
         private T data;
     }
 
+    /**
+     * 枚举泛型测试样例。
+     */
     public enum Type {
         TYPE_A,
         TYPE_B,
@@ -63,6 +74,13 @@ public class GenericTestPOJO {
 
     private Generics<String, Integer, List> generics = new Generics<>();
 
+    /**
+     * 多泛型内部类测试样例。
+     *
+     * @param <A> 泛型 A
+     * @param <B> 泛型 B
+     * @param <C> 泛型 C
+     */
     public class Generics<A, B, C> {
         private A a;
         private B b;

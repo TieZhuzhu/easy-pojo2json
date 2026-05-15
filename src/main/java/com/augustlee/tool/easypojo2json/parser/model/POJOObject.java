@@ -5,34 +5,57 @@ import com.intellij.psi.PsiType;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 解析期 POJO 模型基类。
+ * <p>
+ * 该基类抽象了递归展开 POJO 时所有节点共享的上下文信息。
+ */
 public abstract class POJOObject {
 
     /**
-     * 递归深度
-     * ref: {@link com.augustlee.tool.easypojo2json.parser.POJO2JSONParser#parseFieldValue(POJOVariable)}
+     * 当前递归深度。
+     * <p>
+     * 用于在循环引用或过深嵌套时及时中断，避免无限递归。
      */
     protected int recursionLevel;
 
     /**
-     * 需要过滤的属性，随Fields上定义的注释而变化
-     * ref: {@link com.augustlee.tool.easypojo2json.parser.POJO2JSONParser#parseField}
+     * 当前节点下需要过滤的属性列表。
+     * <p>
+     * 通常来自 {@code @JsonIgnoreProperties} 注解或 JavaDoc 标签。
      */
     protected List<String> ignoreProperties;
 
     /**
-     * 当前PsiType的Class所拥有的泛型Map，Map中包含当前PsiClass所定义的 泛型 和 泛型对应的用户指定类型 (E=CustomObject)
-     * 并在解析当前PsiClass所包含的Field时，尝试获取这个Field所定义的泛型Map，然后传入下一层
+     * 当前泛型上下文中的“泛型名称 -> 实际类型”映射。
+     * <p>
+     * 例如 {@code T -> UserDTO}，供后续解析字段时替换泛型占位符使用。
      */
     protected Map<String, PsiType> psiClassGenerics;
 
+    /**
+     * 获取当前递归深度。
+     *
+     * @return 当前递归深度
+     */
     public int getRecursionLevel() {
         return recursionLevel;
     }
 
+    /**
+     * 获取当前节点的忽略属性列表。
+     *
+     * @return 忽略属性列表
+     */
     public List<String> getIgnoreProperties() {
         return ignoreProperties;
     }
 
+    /**
+     * 获取当前节点的泛型映射。
+     *
+     * @return 泛型映射
+     */
     public Map<String, PsiType> getPsiClassGenerics() {
         return psiClassGenerics;
     }

@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 静态字段过滤测试样例。
+ */
 @Data
 public class StaticFieldPOJO implements Serializable {
 
@@ -26,5 +29,4 @@ public class StaticFieldPOJO implements Serializable {
     private final transient int thisFinalTransient = 0;
 
     private static final transient int thisStaticFinalTransient = 0;
-
 }

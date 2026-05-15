@@ -1,7 +1,9 @@
 package testdata.java;
 
+/**
+ * 基础原始类型测试样例。
+ */
 public class PrimitiveTestPOJO {
-
 
     private byte aByte = 0;
 
