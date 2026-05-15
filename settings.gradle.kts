@@ -1,0 +1,1 @@
+rootProject.name = "easy-pojo2json"

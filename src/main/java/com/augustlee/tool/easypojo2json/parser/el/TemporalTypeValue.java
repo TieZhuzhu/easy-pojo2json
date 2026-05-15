@@ -1,0 +1,20 @@
+package com.augustlee.tool.easypojo2json.parser.el;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
+public class TemporalTypeValue implements RandomTypeValue {
+    @Override
+    public Object getRandomValue() {
+        LocalDateTime now = LocalDateTime.now();
+        long begin = now.minusYears(10).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long end = now.plusYears(10).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        return begin + (long) (Math.random() * (end - begin));
+    }
+
+    @Override
+    public Object getValue() {
+        return Instant.now().toEpochMilli();
+    }
+}
