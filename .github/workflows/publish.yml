@@ -44,6 +44,9 @@ jobs:
           gradle-version: '8.6'
           gradle-home-cache-cleanup: true
 
+      - name: Ensure Gradle Wrapper Is Executable
+        run: chmod +x ./gradlew
+
       # Publish the plugin to JetBrains Marketplace
       # See https://github.com/JetBrains/intellij-platform-plugin-template
       - name: Publish Plugin
