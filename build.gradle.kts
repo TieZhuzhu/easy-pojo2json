@@ -175,7 +175,8 @@ tasks {
     }
 
     register("printChangelog") {
-        println(changelog.renderItem(changelog.getLatest(), Changelog.OutputType.MARKDOWN))
+        doLast {
+            println(changelog.renderItem(changelog.getLatest(), Changelog.OutputType.MARKDOWN))
+        }
     }
 }
-
