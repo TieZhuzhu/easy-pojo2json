@@ -1,5 +1,6 @@
 package com.augustlee.tool.easypojo2json.parser;
 
+import com.intellij.psi.javadoc.PsiDocComment;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -81,5 +82,41 @@ public class POJO2JSONParserUtils {
 
         return Arrays.stream(StringUtils.deleteWhitespace(text.substring(start, end + 1)).split(","))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 提取 JavaDoc 描述正文。
+     * <p>
+     * 仅保留说明性文本，不包含 {@code @param}、{@code @JsonIgnore} 等标签内容，
+     * 便于在“Copy JSON With JavaDoc”能力中直接输出到字段上方。
+     *
+     * @param docComment 字段 JavaDoc
+     * @return 描述正文；不存在时返回 {@code null}
+     */
+    public static String extractDocDescription(PsiDocComment docComment) {
+        if (docComment == null) {
+            return null;
+        }
+
+        String text = docComment.getText()
+                .replace("\r\n", "\n")
+                .replace('\r', '\n');
+
+        if (text.startsWith("/**")) {
+            text = text.substring(3);
+        }
+        if (text.endsWith("*/")) {
+            text = text.substring(0, text.length() - 2);
+        }
+
+        List<String> lines = Arrays.stream(text.split("\n"))
+                .map(String::trim)
+                .map(line -> line.startsWith("*") ? line.substring(1).trim() : line)
+                .takeWhile(line -> !line.startsWith("@"))
+                .map(line -> line.replace("<p>", "").replace("</p>", "").trim())
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.toList());
+
+        return lines.isEmpty() ? null : String.join("\n", lines);
     }
 }

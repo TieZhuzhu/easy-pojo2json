@@ -1,6 +1,7 @@
 package com.augustlee.tool.easypojo2json.test;
 
 import com.augustlee.tool.easypojo2json.EditorPopupMenuAction;
+import com.augustlee.tool.easypojo2json.EditorPopupMenuWithCommentAction;
 
 /**
  * Java 测试入口集合。
@@ -67,6 +68,7 @@ public class JavaTestCase extends MyTestCase {
     public void testJavaDoc() {
         docTestModel.testJsonIgnoreDocTestPOJO("JsonIgnoreDocTestPOJO.java", new EditorPopupMenuAction());
         docTestModel.testJsonIgnorePropertiesDocTestPOJO("JsonIgnorePropertiesDocTestPOJO.java", new EditorPopupMenuAction());
+        docTestModel.testJsonWithComment("FieldCommentTestPOJO.java", new EditorPopupMenuWithCommentAction());
     }
 
     /**

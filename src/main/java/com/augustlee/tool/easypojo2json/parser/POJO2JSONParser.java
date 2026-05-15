@@ -90,6 +90,24 @@ public class POJO2JSONParser {
     }
 
     /**
+     * 将 UAST 元素转换为带字段 JavaDoc 注释的 JSON 风格文本。
+     *
+     * @param uElement 需要转换的 UAST 元素，通常是类、字段、参数或局部变量
+     * @return 带字段注释的 JSON 风格字符串
+     */
+    public String uElementToJSONStringWithComment(@NotNull final UElement uElement) {
+        CommentedValue result = null;
+
+        if (uElement instanceof UVariable variable) {
+            result = parseFieldValueWithComment(POJOVariable.init((PsiVariable) variable.getJavaPsi(), getPsiClassGenerics(variable.getType())));
+        } else if (uElement instanceof UClass uClass) {
+            result = parseClassWithComment(POJOClass.init(uClass.getJavaPsi()));
+        }
+
+        return renderCommentedValue(result, 0);
+    }
+
+    /**
      * 解析类中的全部字段并组装为 JSON 对象结构。
      *
      * @param pojoClass 当前待解析类
@@ -110,12 +128,74 @@ public class POJO2JSONParser {
     }
 
     /**
+     * 解析类中的全部字段并组装为带注释的对象结构。
+     *
+     * @param pojoClass 当前待解析类
+     * @return 带注释的对象结构；若类被标记为忽略类型则返回 {@code null}
+     */
+    private CommentedObjectValue parseClassWithComment(POJOClass pojoClass) {
+        PsiClass psiClass = pojoClass.getPsiClass();
+
+        PsiAnnotation annotation = psiClass.getAnnotation(com.fasterxml.jackson.annotation.JsonIgnoreType.class.getName());
+        if (annotation != null) {
+            return null;
+        }
+
+        LinkedHashMap<String, CommentedField> fields = Arrays.stream(psiClass.getAllFields())
+                .map(field -> parseFieldWithComment(pojoClass.toField(field)))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toMap(CommentedField::key, field -> field, (ov, nv) -> ov, LinkedHashMap::new));
+
+        return new CommentedObjectValue(new ArrayList<>(fields.values()));
+    }
+
+    /**
      * 解析单个字段的 JSON 键值对。
      *
      * @param pojoField 当前字段模型
      * @return 字段键值对；若字段应被忽略则返回 {@code null}
      */
     private Map.Entry<String, Object> parseField(POJOField pojoField) {
+        String fieldKey = prepareFieldKey(pojoField);
+        if (fieldKey == null) {
+            return null;
+        }
+
+        Object fieldValue = parseFieldValue(pojoField);
+        if (fieldValue == null) {
+            return null;
+        }
+        return Map.entry(fieldKey, fieldValue);
+    }
+
+    /**
+     * 解析单个字段的带注释键值对。
+     *
+     * @param pojoField 当前字段模型
+     * @return 带注释字段；若字段应被忽略则返回 {@code null}
+     */
+    private CommentedField parseFieldWithComment(POJOField pojoField) {
+        String fieldKey = prepareFieldKey(pojoField);
+        if (fieldKey == null) {
+            return null;
+        }
+
+        CommentedValue fieldValue = parseFieldValueWithComment(pojoField);
+        if (fieldValue == null) {
+            return null;
+        }
+
+        String comment = POJO2JSONParserUtils.extractDocDescription(pojoField.getPsiField().getDocComment());
+        return new CommentedField(fieldKey, comment, fieldValue);
+    }
+
+    /**
+     * 统一执行字段过滤、忽略属性继承与字段名解析。
+     *
+     * @param pojoField 当前字段模型
+     * @return 最终输出字段名；若字段应被忽略则返回 {@code null}
+     */
+    private String prepareFieldKey(POJOField pojoField) {
         PsiField field = pojoField.getPsiField();
 
         // 静态字段不会出现在实例 JSON 中，这里也顺带过滤 Kotlin companion object / INSTANCE 等场景。
@@ -144,7 +224,10 @@ public class POJO2JSONParser {
         } else {
             annotation = field.getAnnotation(com.fasterxml.jackson.annotation.JsonIgnoreProperties.class.getName());
             if (annotation != null) {
-                pojoField.setIgnoreProperties(POJO2JSONParserUtils.arrayTextToList(annotation.findAttributeValue("value").getText()));
+                PsiAnnotationMemberValue attributeValue = annotation.findAttributeValue("value");
+                if (attributeValue != null) {
+                    pojoField.setIgnoreProperties(POJO2JSONParserUtils.arrayTextToList(attributeValue.getText()));
+                }
             }
         }
 
@@ -153,12 +236,7 @@ public class POJO2JSONParser {
             return null;
         }
         pojoField.setName(fieldKey);
-
-        Object fieldValue = parseFieldValue(pojoField);
-        if (fieldValue == null) {
-            return null;
-        }
-        return Map.entry(fieldKey, fieldValue);
+        return fieldKey;
     }
 
     /**
@@ -178,17 +256,23 @@ public class POJO2JSONParser {
 
         PsiAnnotation annotation = field.getAnnotation(com.fasterxml.jackson.annotation.JsonProperty.class.getName());
         if (annotation != null) {
-            String fieldName = POJO2JSONParserUtils.psiTextToString(annotation.findAttributeValue("value").getText());
-            if (StringUtils.isNotBlank(fieldName)) {
-                return fieldName;
+            PsiAnnotationMemberValue attributeValue = annotation.findAttributeValue("value");
+            if (attributeValue != null) {
+                String fieldName = POJO2JSONParserUtils.psiTextToString(attributeValue.getText());
+                if (StringUtils.isNotBlank(fieldName)) {
+                    return fieldName;
+                }
             }
         }
 
         annotation = field.getAnnotation("com.alibaba.fastjson.annotation.JSONField");
         if (annotation != null) {
-            String fieldName = POJO2JSONParserUtils.psiTextToString(annotation.findAttributeValue("name").getText());
-            if (StringUtils.isNotBlank(fieldName)) {
-                return fieldName;
+            PsiAnnotationMemberValue attributeValue = annotation.findAttributeValue("name");
+            if (attributeValue != null) {
+                String fieldName = POJO2JSONParserUtils.psiTextToString(attributeValue.getText());
+                if (StringUtils.isNotBlank(fieldName)) {
+                    return fieldName;
+                }
             }
         }
 
@@ -299,6 +383,203 @@ public class POJO2JSONParser {
     }
 
     /**
+     * 解析字段或变量的默认值，并保留对象层级中的字段注释信息。
+     *
+     * @param pojoVariable 当前变量模型
+     * @return 带注释的值结构
+     */
+    private CommentedValue parseFieldValueWithComment(POJOVariable pojoVariable) {
+        PsiType type = pojoVariable.getPsiType();
+        Map<String, String> psiTypeExpression = SettingsState.getInstance().classNameSpELMap;
+
+        if (type instanceof PsiPrimitiveType) {
+            return new CommentedPrimitiveValue(getPrimitiveTypeValue(pojoVariable, type, psiTypeExpression));
+        } else if (type instanceof PsiArrayType) {
+            PsiType typeToDeepType = type.getDeepComponentType();
+            CommentedValue obj = parseFieldValueWithComment(pojoVariable.deepVariable(typeToDeepType, getPsiClassGenerics(typeToDeepType)));
+            return obj != null ? new CommentedArrayValue(List.of(obj)) : new CommentedArrayValue(List.of());
+        } else {
+            PsiClass psiClass = PsiUtil.resolveClassInClassTypeOnly(type);
+
+            if (psiClass == null) {
+                return new CommentedObjectValue(List.of());
+            }
+
+            if (psiClass.isEnum()) {
+                return new CommentedPrimitiveValue(Arrays.stream(psiClass.getAllFields())
+                        .filter(psiField -> psiField instanceof PsiEnumConstant)
+                        .findFirst()
+                        .map(PsiField::getName)
+                        .orElse(""));
+            }
+
+            List<String> fieldTypeNames = new ArrayList<>();
+            fieldTypeNames.add(psiClass.getQualifiedName());
+            fieldTypeNames.addAll(
+                    Arrays.stream(psiClass.getSupers())
+                            .map(PsiClass::getQualifiedName)
+                            .toList()
+            );
+            fieldTypeNames = fieldTypeNames.stream().filter(Objects::nonNull).toList();
+
+            List<String> retain = new ArrayList<>(fieldTypeNames);
+            retain.retainAll(psiTypeExpression.keySet());
+            if (!retain.isEmpty()) {
+                try {
+                    Expression expression = expressionParser.parseExpression(psiTypeExpression.get(retain.get(0)), templateParserContext);
+                    return new CommentedPrimitiveValue(expression.getValue(EvaluationContextFactory.newEvaluationContext(pojoVariable)));
+                } catch (Exception e) {
+                    throw new KnownException(e);
+                }
+            }
+
+            boolean iterable = fieldTypeNames.stream().anyMatch(iterableTypes::contains);
+            if (iterable) {
+                PsiType typeToDeepType = PsiUtil.extractIterableTypeParameter(type, false);
+                if (typeToDeepType == null) {
+                    return new CommentedArrayValue(List.of());
+                }
+                CommentedValue obj = parseFieldValueWithComment(pojoVariable.deepVariable(typeToDeepType, getPsiClassGenerics(typeToDeepType)));
+                return obj != null ? new CommentedArrayValue(List.of(obj)) : new CommentedArrayValue(List.of());
+            }
+
+            if (pojoVariable.getRecursionLevel() > 200) {
+                throw new KnownException("This class reference level exceeds maximum limit or has nested references!");
+            }
+
+            PsiType typeToDeepType = pojoVariable.getPsiClassGenerics().get(psiClass.getName());
+            if (typeToDeepType != null) {
+                return parseFieldValueWithComment(pojoVariable.deepVariable(typeToDeepType, getPsiClassGenerics(typeToDeepType)));
+            }
+
+            return parseClassWithComment(pojoVariable.deepClass(psiClass, getPsiClassGenerics(type)));
+        }
+    }
+
+    /**
+     * 渲染带注释的对象树。
+     *
+     * @param value  带注释值
+     * @param indent 当前缩进层级
+     * @return 最终文本
+     */
+    private String renderCommentedValue(CommentedValue value, int indent) {
+        if (value == null) {
+            return "null";
+        }
+
+        if (value instanceof CommentedPrimitiveValue primitiveValue) {
+            return gsonBuilder.create().toJson(primitiveValue.value());
+        }
+        if (value instanceof CommentedArrayValue arrayValue) {
+            return renderCommentedArray(arrayValue, indent);
+        }
+        if (value instanceof CommentedObjectValue objectValue) {
+            return renderCommentedObject(objectValue, indent);
+        }
+
+        return "null";
+    }
+
+    /**
+     * 渲染带注释的对象结构。
+     *
+     * @param objectValue 对象结构
+     * @param indent      当前缩进层级
+     * @return 对象文本
+     */
+    private String renderCommentedObject(CommentedObjectValue objectValue, int indent) {
+        if (objectValue.fields().isEmpty()) {
+            return "{}";
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("{\n");
+
+        for (int i = 0; i < objectValue.fields().size(); i++) {
+            CommentedField field = objectValue.fields().get(i);
+            builder.append(renderCommentedField(field, indent + 1));
+            if (i < objectValue.fields().size() - 1) {
+                builder.append(",");
+            }
+            builder.append("\n");
+        }
+
+        builder.append(indent(indent)).append("}");
+        return builder.toString();
+    }
+
+    /**
+     * 渲染带注释的数组结构。
+     *
+     * @param arrayValue 数组结构
+     * @param indent     当前缩进层级
+     * @return 数组文本
+     */
+    private String renderCommentedArray(CommentedArrayValue arrayValue, int indent) {
+        if (arrayValue.elements().isEmpty()) {
+            return "[]";
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("[\n");
+        for (int i = 0; i < arrayValue.elements().size(); i++) {
+            builder.append(indent(indent + 1))
+                    .append(renderCommentedValue(arrayValue.elements().get(i), indent + 1));
+            if (i < arrayValue.elements().size() - 1) {
+                builder.append(",");
+            }
+            builder.append("\n");
+        }
+        builder.append(indent(indent)).append("]");
+        return builder.toString();
+    }
+
+    /**
+     * 渲染单个带注释字段。
+     *
+     * @param field  带注释字段
+     * @param indent 当前缩进层级
+     * @return 字段文本
+     */
+    private String renderCommentedField(CommentedField field, int indent) {
+        StringBuilder builder = new StringBuilder();
+        appendLineComment(builder, field.comment(), indent);
+        builder.append(indent(indent))
+                .append(gsonBuilder.create().toJson(field.key()))
+                .append(": ")
+                .append(renderCommentedValue(field.value(), indent));
+        return builder.toString();
+    }
+
+    /**
+     * 追加单行注释。
+     *
+     * @param builder 构建器
+     * @param comment 注释正文
+     * @param indent  当前缩进层级
+     */
+    private void appendLineComment(StringBuilder builder, String comment, int indent) {
+        if (StringUtils.isBlank(comment)) {
+            return;
+        }
+
+        String indentText = indent(indent);
+        Arrays.stream(comment.split("\n"))
+                .forEach(line -> builder.append(indentText).append("// ").append(line).append("\n"));
+    }
+
+    /**
+     * 生成指定层级的两个空格缩进。
+     *
+     * @param indent 缩进层级
+     * @return 缩进字符串
+     */
+    private String indent(int indent) {
+        return "  ".repeat(Math.max(0, indent));
+    }
+
+    /**
      * 提取当前类型上下文中的泛型实参映射。
      *
      * @param type 当前 PSI 类型
@@ -347,5 +628,50 @@ public class POJO2JSONParser {
             default:
                 return null;
         }
+    }
+
+    /**
+     * 带注释值标记接口。
+     *
+     * @author August Lee
+     * @see CommentedValue
+     * @since 2026-05-15 15:29:08
+     *
+     */
+    private interface CommentedValue {
+    }
+
+    /**
+     * 带注释字段渲染模型。
+     *
+     * @param key     字段名
+     * @param comment 字段注释
+     * @param value   字段值
+     */
+    private record CommentedField(String key, String comment, CommentedValue value) {
+    }
+
+    /**
+     * 原始值渲染模型。
+     *
+     * @param value 原始值
+     */
+    private record CommentedPrimitiveValue(Object value) implements CommentedValue {
+    }
+
+    /**
+     * 数组值渲染模型。
+     *
+     * @param elements 数组元素
+     */
+    private record CommentedArrayValue(List<CommentedValue> elements) implements CommentedValue {
+    }
+
+    /**
+     * 对象值渲染模型。
+     *
+     * @param fields 对象字段列表
+     */
+    private record CommentedObjectValue(List<CommentedField> fields) implements CommentedValue {
     }
 }

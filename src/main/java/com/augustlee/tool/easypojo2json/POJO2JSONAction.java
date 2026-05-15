@@ -52,6 +52,15 @@ public abstract class POJO2JSONAction extends AnAction {
     }
 
     /**
+     * 基于文件默认类位置执行 POJO 转 JSON，并保留字段 JavaDoc 注释。
+     *
+     * @param psiFile 当前 PSI 文件
+     */
+    public void pojo2jsonWithCommentAction(@NotNull final PsiFile psiFile) {
+        pojo2jsonWithCommentAction(psiFile, null, null);
+    }
+
+    /**
      * 根据文件、编辑器和当前 PSI 元素上下文执行 POJO 转 JSON。
      * <p>
      * 解析顺序为：
@@ -66,6 +75,34 @@ public abstract class POJO2JSONAction extends AnAction {
     public void pojo2jsonAction(@NotNull final PsiFile psiFile,
                                 @Nullable final Editor editor,
                                 @Nullable final PsiElement psiElement) {
+        copyToClipboard(psiFile, editor, psiElement, false);
+    }
+
+    /**
+     * 根据文件、编辑器和当前 PSI 元素上下文执行 POJO 转带注释文本。
+     *
+     * @param psiFile    当前 PSI 文件
+     * @param editor     当前编辑器，可为空
+     * @param psiElement 当前选中 PSI 元素，可为空
+     */
+    public void pojo2jsonWithCommentAction(@NotNull final PsiFile psiFile,
+                                           @Nullable final Editor editor,
+                                           @Nullable final PsiElement psiElement) {
+        copyToClipboard(psiFile, editor, psiElement, true);
+    }
+
+    /**
+     * 执行复制逻辑。
+     *
+     * @param psiFile         当前 PSI 文件
+     * @param editor          当前编辑器
+     * @param psiElement      当前 PSI 元素
+     * @param withFieldDoc    是否输出字段 JavaDoc 注释
+     */
+    private void copyToClipboard(@NotNull final PsiFile psiFile,
+                                 @Nullable final Editor editor,
+                                 @Nullable final PsiElement psiElement,
+                                 boolean withFieldDoc) {
         final Project project = psiFile.getProject();
 
         if (!uastSupported(psiFile)) {
@@ -99,9 +136,14 @@ public abstract class POJO2JSONAction extends AnAction {
         }
 
         try {
-            String json = pojo2JSONParser.uElementToJSONString(uElement);
-            ClipboardHandler.copyToClipboard(json);
-            Notifier.notifyInfo("Convert " + psiFile.getName() + " to JSON success, copied to clipboard.", project);
+            String text = withFieldDoc
+                    ? pojo2JSONParser.uElementToJSONStringWithComment(uElement)
+                    : pojo2JSONParser.uElementToJSONString(uElement);
+            ClipboardHandler.copyToClipboard(text);
+            String successMessage = withFieldDoc
+                    ? "Convert " + psiFile.getName() + " to JSON with JavaDoc success, copied to clipboard."
+                    : "Convert " + psiFile.getName() + " to JSON success, copied to clipboard.";
+            Notifier.notifyInfo(successMessage, project);
         } catch (KnownException ex) {
             Notifier.notifyWarn(ex.getMessage(), project);
         }

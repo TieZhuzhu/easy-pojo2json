@@ -148,13 +148,55 @@ public abstract class MyTestCase extends LightJavaCodeInsightFixtureTestCase {
 
         myFixture.testAction(action);
 
-        Transferable result = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
-
+        String jsonStr = readClipboardText();
         try {
-            String jsonStr = String.valueOf(result.getTransferData(DataFlavor.stringFlavor));
             JsonNode jsonNode = objectMapper.readTree(jsonStr);
             System.out.println(jsonNode.toPrettyString());
             return jsonNode;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 在默认类位置触发动作，并直接返回剪贴板原始文本。
+     *
+     * @param fileName 测试文件名
+     * @param action   要执行的动作
+     * @return 剪贴板原始文本
+     */
+    public String testActionRawText(@NotNull String fileName, @NotNull AnAction action) {
+        return this.testActionRawText(fileName, action, "class");
+    }
+
+    /**
+     * 在指定光标定位文本处触发动作，并直接返回剪贴板原始文本。
+     *
+     * @param fileName             测试文件名
+     * @param action               要执行的动作
+     * @param cursorPositionByText 用于定位光标的文本片段
+     * @return 剪贴板原始文本
+     */
+    public String testActionRawText(@NotNull String fileName, @NotNull AnAction action, String cursorPositionByText) {
+        myFixture.configureByFile(fileName);
+        PsiElement psiElement = myFixture.findElementByText(cursorPositionByText, PsiElement.class);
+        int offset = psiElement.getTextOffset();
+        myFixture.getEditor().getCaretModel().moveToOffset(offset);
+
+        myFixture.testAction(action);
+        return readClipboardText();
+    }
+
+    /**
+     * 读取当前系统剪贴板中的文本内容。
+     *
+     * @return 剪贴板文本
+     */
+    private String readClipboardText() {
+        Transferable result = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+
+        try {
+            return String.valueOf(result.getTransferData(DataFlavor.stringFlavor));
         } catch (UnsupportedFlavorException | IOException e) {
             throw new RuntimeException(e);
         }

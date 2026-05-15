@@ -6,6 +6,7 @@ import com.augustlee.tool.easypojo2json.test.MyTestCase;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * JavaDoc 标记相关能力的断言模型。
@@ -50,5 +51,28 @@ public class DocTestModel extends TestModel {
 
         assertNull(result.get("username"));
         assertNotNull(result.get("password"));
+    }
+
+    /**
+     * 验证“复制 JSON + JavaDoc”文本中会把字段说明写到属性上方。
+     *
+     * @param fileName 测试文件名
+     * @param action   执行动作
+     */
+    public void testJsonWithComment(String fileName, AnAction action) {
+        String result = testCase.testActionRawText(fileName, action);
+
+        assertTrue(result.contains("// 用户名称"));
+        assertTrue(result.contains("\"username\": \"\""));
+        assertTrue(result.indexOf("用户名称") < result.indexOf("\"username\": \"\""));
+
+        assertTrue(result.contains("// 角色列表"));
+        assertTrue(result.contains("\"roles\": ["));
+        assertTrue(result.indexOf("角色列表") < result.indexOf("\"roles\": ["));
+
+        assertTrue(result.contains("// 角色编码"));
+        assertTrue(result.contains("\"roleId\": 0"));
+        assertTrue(result.indexOf("角色编码") < result.indexOf("\"roleId\": 0"));
+        assertTrue(!result.contains("/**"));
     }
 }

@@ -1,5 +1,12 @@
 # Easy POJO to JSON Changelog
 
+## [1.0.1]
+### Added
+- Add `Copy JSON With JavaDoc` action in editor popup menu and Generate menu.
+- Support copying JSON-like content with field JavaDoc comments rendered above properties.
+### Changed
+- Upgrade plugin version to `1.0.1`.
+
 ## [1.0.0]
 ### Add
 - Support for @JsonNaming

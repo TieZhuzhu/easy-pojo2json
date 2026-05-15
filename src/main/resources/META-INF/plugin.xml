@@ -28,6 +28,12 @@
                     text="Copy JSON"
                     description="Convert POJO to JSON and copy to the clipboard">
             </action>
+            <action class="com.augustlee.tool.easypojo2json.EditorPopupMenuWithCommentAction"
+                    id="com.augustlee.tool.easypojo2json.EditorPopupMenuWithCommentAction"
+                    icon="AllIcons.Json.Object"
+                    text="Copy JSON With JavaDoc"
+                    description="Convert POJO to JSON with field JavaDoc and copy to the clipboard">
+            </action>
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Copy.Paste.Special"/>
         </group>
 
@@ -37,6 +43,12 @@
                     icon="AllIcons.Json.Object"
                     text="Copy JSON"
                     description="Convert POJO to JSON and copy to the clipboard">
+            </action>
+            <action class="com.augustlee.tool.easypojo2json.EditorPopupMenuWithCommentAction"
+                    id="com.augustlee.tool.easypojo2json.GenerateGroupWithCommentAction"
+                    icon="AllIcons.Json.Object"
+                    text="Copy JSON With JavaDoc"
+                    description="Convert POJO to JSON with field JavaDoc and copy to the clipboard">
             </action>
             <add-to-group group-id="GenerateGroup" anchor="last"/>
         </group>
