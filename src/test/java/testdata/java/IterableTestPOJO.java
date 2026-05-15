@@ -4,6 +4,11 @@ import java.util.*;
 
 /**
  * 集合与可迭代类型测试样例。
+ * 
+ * @author August Lee
+ * @see IterableTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class IterableTestPOJO {
 

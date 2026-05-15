@@ -6,9 +6,11 @@ import java.awt.datatransfer.StringSelection;
 
 /**
  * 剪贴板写入工具。
- * <p>
- * 插件在完成 POJO 转 JSON 后统一通过该工具将结果复制到系统剪贴板，
- * 以便用户可以直接粘贴到接口调试工具、文档或测试代码中。
+ * 
+ * @author August Lee
+ * @see ClipboardHandler
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class ClipboardHandler {
 

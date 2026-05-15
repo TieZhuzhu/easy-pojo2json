@@ -5,6 +5,11 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 /**
  * LowerCamelCase 命名策略测试样例。
+ * 
+ * @author August Lee
+ * @see LowerCamelCaseStrategyTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 @JsonNaming(PropertyNamingStrategies.LowerCamelCaseStrategy.class)
 class LowerCamelCaseStrategyTestPOJO {
@@ -13,6 +18,11 @@ class LowerCamelCaseStrategyTestPOJO {
 
 /**
  * UpperCamelCase 命名策略测试样例。
+ * 
+ * @author August Lee
+ * @see UpperCamelCaseStrategyTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 @JsonNaming(PropertyNamingStrategies.UpperCamelCaseStrategy.class)
 class UpperCamelCaseStrategyTestPOJO {
@@ -21,6 +31,11 @@ class UpperCamelCaseStrategyTestPOJO {
 
 /**
  * SnakeCase 命名策略测试样例。
+ * 
+ * @author August Lee
+ * @see SnakeCaseStrategyTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 class SnakeCaseStrategyTestPOJO {
@@ -29,6 +44,11 @@ class SnakeCaseStrategyTestPOJO {
 
 /**
  * UpperSnakeCase 命名策略测试样例。
+ * 
+ * @author August Lee
+ * @see UpperSnakeCaseStrategyTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 @JsonNaming(PropertyNamingStrategies.UpperSnakeCaseStrategy.class)
 class UpperSnakeCaseStrategyTestPOJO {
@@ -37,6 +57,11 @@ class UpperSnakeCaseStrategyTestPOJO {
 
 /**
  * KebabCase 命名策略测试样例。
+ * 
+ * @author August Lee
+ * @see KebabCaseStrategyTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 @JsonNaming(PropertyNamingStrategies.KebabCaseStrategy.class)
 class KebabCaseStrategyTestPOJO {
@@ -45,6 +70,11 @@ class KebabCaseStrategyTestPOJO {
 
 /**
  * LowerCase 命名策略测试样例。
+ * 
+ * @author August Lee
+ * @see LowerCaseStrategyTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 @JsonNaming(PropertyNamingStrategies.LowerCaseStrategy.class)
 class LowerCaseStrategyTestPOJO {
@@ -53,6 +83,11 @@ class LowerCaseStrategyTestPOJO {
 
 /**
  * LowerDotCase 命名策略测试样例。
+ * 
+ * @author August Lee
+ * @see LowerDotCaseStrategyTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 @JsonNaming(PropertyNamingStrategies.LowerDotCaseStrategy.class)
 class LowerDotCaseStrategyTestPOJO {

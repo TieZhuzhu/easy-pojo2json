@@ -15,9 +15,11 @@ import org.jetbrains.uast.*;
 
 /**
  * POJO 转 JSON 动作基类。
- * <p>
- * 编辑器右键、Generate 菜单、项目视图右键等入口都会复用该基类，
- * 由它统一完成 UAST 定位、异常处理、剪贴板写入以及通知反馈。
+ * 
+ * @author August Lee
+ * @see POJO2JSONAction
+ * @since 2026-05-15 15:29:08
+ *
  */
 public abstract class POJO2JSONAction extends AnAction {
 

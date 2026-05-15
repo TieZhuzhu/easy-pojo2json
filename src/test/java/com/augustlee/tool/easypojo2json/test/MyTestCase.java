@@ -31,8 +31,11 @@ import java.io.IOException;
 
 /**
  * 插件测试基类。
- * <p>
- * 统一完成轻量 IDEA 工程初始化、依赖注入、动作触发以及剪贴板结果反序列化。
+ * 
+ * @author August Lee
+ * @see MyTestCase
+ * @since 2026-05-15 15:29:08
+ *
  */
 public abstract class MyTestCase extends LightJavaCodeInsightFixtureTestCase {
 

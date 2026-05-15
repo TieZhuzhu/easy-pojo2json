@@ -12,6 +12,11 @@ import static junit.framework.Assert.*;
 
 /**
  * 变量、参数与局部变量相关能力的断言模型。
+ * 
+ * @author August Lee
+ * @see VariableTestModel
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class VariableTestModel extends TestModel {
 

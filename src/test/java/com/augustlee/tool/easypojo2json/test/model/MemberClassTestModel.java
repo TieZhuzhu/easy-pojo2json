@@ -8,6 +8,11 @@ import static junit.framework.Assert.assertTrue;
 
 /**
  * 成员内部类相关能力的断言模型。
+ * 
+ * @author August Lee
+ * @see MemberClassTestModel
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class MemberClassTestModel extends TestModel {
 

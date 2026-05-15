@@ -9,8 +9,11 @@ import java.util.Map;
 
 /**
  * 解析期变量模型。
- * <p>
- * 可用于描述字段、参数、局部变量等一切会被转换为 JSON 值的节点。
+ * 
+ * @author August Lee
+ * @see POJOVariable
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class POJOVariable extends POJOObject {
 

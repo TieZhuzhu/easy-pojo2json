@@ -2,6 +2,11 @@ package com.augustlee.tool.easypojo2json.parser.el;
 
 /**
  * 整数默认值提供器。
+ * 
+ * @author August Lee
+ * @see IntegerTypeValue
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class IntegerTypeValue implements RandomTypeValue {
 

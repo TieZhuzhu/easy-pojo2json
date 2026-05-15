@@ -25,8 +25,11 @@ import java.util.stream.Collectors;
 
 /**
  * 项目视图右键菜单动作。
- * <p>
- * 该入口既支持单文件直接复制 JSON，也支持多文件批量转换后写入 Scratches。
+ * 
+ * @author August Lee
+ * @see ProjectViewPopupMenuAction
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class ProjectViewPopupMenuAction extends POJO2JSONAction {
 

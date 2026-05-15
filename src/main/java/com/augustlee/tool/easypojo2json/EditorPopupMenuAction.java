@@ -10,9 +10,11 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * 编辑器右键菜单动作。
- * <p>
- * 该动作用于在当前打开的 Java/Kotlin 文件中，根据光标所在的类、字段、
- * 参数等位置触发 POJO 转 JSON。
+ * 
+ * @author August Lee
+ * @see EditorPopupMenuAction
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class EditorPopupMenuAction extends POJO2JSONAction {
 

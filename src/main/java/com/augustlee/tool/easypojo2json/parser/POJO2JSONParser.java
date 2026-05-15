@@ -26,11 +26,11 @@ import java.util.stream.Collectors;
 
 /**
  * POJO 到 JSON 示例值的核心解析器。
- * <p>
- * 解析器的职责主要分为三部分：
- * 1. 将 UAST/PSI 元素归一为字段或类模型。
- * 2. 根据 Jackson/Fastjson 注解、JavaDoc 标记与用户配置决定字段名和字段值。
- * 3. 递归展开嵌套类型、数组、集合、泛型与特殊对象，最终输出可序列化的对象树。
+ * 
+ * @author August Lee
+ * @see POJO2JSONParser
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class POJO2JSONParser {
 

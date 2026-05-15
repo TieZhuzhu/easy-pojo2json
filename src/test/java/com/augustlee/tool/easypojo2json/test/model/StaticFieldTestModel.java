@@ -9,6 +9,11 @@ import static junit.framework.Assert.assertNull;
 
 /**
  * 静态字段过滤能力的断言模型。
+ * 
+ * @author August Lee
+ * @see StaticFieldTestModel
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class StaticFieldTestModel extends TestModel {
 

@@ -7,6 +7,11 @@ import java.util.Map;
 
 /**
  * 泛型与嵌套泛型测试样例。
+ * 
+ * @author August Lee
+ * @see GenericTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class GenericTestPOJO {
 
@@ -51,8 +56,11 @@ public class GenericTestPOJO {
 
     /**
      * 单泛型内部类测试样例。
+     * 
+     * @author August Lee
+     * @see Generic
+     * @since 2026-05-15 15:29:08
      *
-     * @param <T> 泛型数据类型
      */
     public class Generic<T> {
 
@@ -63,6 +71,11 @@ public class GenericTestPOJO {
 
     /**
      * 枚举泛型测试样例。
+     * 
+     * @author August Lee
+     * @see Type
+     * @since 2026-05-15 15:29:08
+     *
      */
     public enum Type {
         TYPE_A,
@@ -76,10 +89,11 @@ public class GenericTestPOJO {
 
     /**
      * 多泛型内部类测试样例。
+     * 
+     * @author August Lee
+     * @see Generics
+     * @since 2026-05-15 15:29:08
      *
-     * @param <A> 泛型 A
-     * @param <B> 泛型 B
-     * @param <C> 泛型 C
      */
     public class Generics<A, B, C> {
         private A a;

@@ -18,9 +18,11 @@ import java.util.Arrays;
 
 /**
  * 临时实验性测试集合。
- * <p>
- * 这些测试主要用于验证 SpEL、命名格式和时间生成逻辑，
- * 不直接参与核心回归断言模型。
+ * 
+ * @author August Lee
+ * @see TempTestCase
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class TempTestCase {
 

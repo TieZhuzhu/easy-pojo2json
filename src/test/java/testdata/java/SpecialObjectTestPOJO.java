@@ -14,8 +14,11 @@ import java.util.UUID;
 
 /**
  * 特殊对象类型测试样例。
- * <p>
- * 覆盖包装类型、时间类型、UUID 以及 Jackson JSON 节点对象。
+ * 
+ * @author August Lee
+ * @see SpecialObjectTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class SpecialObjectTestPOJO {
 

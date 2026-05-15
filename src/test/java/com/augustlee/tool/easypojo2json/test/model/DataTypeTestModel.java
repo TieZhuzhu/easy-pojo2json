@@ -17,6 +17,11 @@ import static junit.framework.Assert.*;
 
 /**
  * 数据类型相关能力的断言模型。
+ * 
+ * @author August Lee
+ * @see DataTypeTestModel
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class DataTypeTestModel extends TestModel {
 

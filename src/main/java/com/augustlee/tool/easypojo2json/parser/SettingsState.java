@@ -26,6 +26,14 @@ import java.util.stream.Collectors;
 @State(name = "com.augustlee.tool.easypojo2json.parser.SettingsState",
         storages = @Storage("Pojo2jsonPlugin.xml"),
         category = SettingsCategory.TOOLS)
+/**
+ * SettingsState
+ * 
+ * @author August Lee
+ * @see SettingsState
+ * @since 2026-05-15 15:29:08
+ *
+ */
 public class SettingsState implements PersistentStateComponent<SettingsState> {
 
     /**

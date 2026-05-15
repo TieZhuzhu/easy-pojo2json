@@ -11,9 +11,11 @@ import javax.swing.*;
 
 /**
  * 插件设置页配置入口。
- * <p>
- * 该类负责将 IDEA Settings 页面与 {@link SettingsState} 持久化配置绑定起来，
- * 包括修改检测、保存回写以及界面重置。
+ * 
+ * @author August Lee
+ * @see SettingsConfigurable
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class SettingsConfigurable implements Configurable {
 

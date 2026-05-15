@@ -6,6 +6,11 @@ import java.time.ZoneId;
 
 /**
  * 时间戳默认值提供器。
+ * 
+ * @author August Lee
+ * @see TemporalTypeValue
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class TemporalTypeValue implements RandomTypeValue {
 

@@ -7,8 +7,11 @@ import java.util.Map;
 
 /**
  * 解析期 POJO 模型基类。
- * <p>
- * 该基类抽象了递归展开 POJO 时所有节点共享的上下文信息。
+ * 
+ * @author August Lee
+ * @see POJOObject
+ * @since 2026-05-15 15:29:08
+ *
  */
 public abstract class POJOObject {
 

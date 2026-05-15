@@ -10,6 +10,11 @@ import java.util.Set;
 
 /**
  * 字段、参数和局部变量解析测试样例。
+ * 
+ * @author August Lee
+ * @see VariableTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class VariableTestPOJO {
 
@@ -35,8 +40,11 @@ public class VariableTestPOJO {
 
 /**
  * 泛型简单对象测试样例。
+ * 
+ * @author August Lee
+ * @see SimpleTestPOJO
+ * @since 2026-05-15 15:29:08
  *
- * @param <T> 泛型数据类型
  */
 class SimpleTestPOJO<T> {
 
@@ -55,6 +63,11 @@ class SimpleTestPOJO<T> {
 
 /**
  * 嵌套对象测试样例。
+ * 
+ * @author August Lee
+ * @see Data
+ * @since 2026-05-15 15:29:08
+ *
  */
 class Data {
 

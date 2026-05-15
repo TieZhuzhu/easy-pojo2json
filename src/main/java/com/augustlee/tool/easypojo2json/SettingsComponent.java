@@ -10,10 +10,11 @@ import javax.swing.*;
 
 /**
  * 插件设置页 UI 组件。
- * <p>
- * 该组件负责构建两类核心配置的可视化输入区域：
- * 一类是“Java 类型 -> SpEL 表达式”的默认值映射，
- * 一类是 JSON 字段名生成规则。
+ * 
+ * @author August Lee
+ * @see SettingsComponent
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class SettingsComponent {
 

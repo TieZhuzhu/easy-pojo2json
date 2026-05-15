@@ -9,6 +9,11 @@ import static junit.framework.Assert.assertNull;
 
 /**
  * JavaDoc 标记相关能力的断言模型。
+ * 
+ * @author August Lee
+ * @see DocTestModel
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class DocTestModel extends TestModel {
 

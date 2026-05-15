@@ -4,6 +4,11 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * 本地时间默认值提供器。
+ * 
+ * @author August Lee
+ * @see LocalTimeTypeValue
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class LocalTimeTypeValue extends LocalDateTimeTypeValue {
 

@@ -2,6 +2,11 @@ package com.augustlee.tool.easypojo2json.parser.el;
 
 /**
  * 布尔值默认值提供器。
+ * 
+ * @author August Lee
+ * @see BooleanTypeValue
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class BooleanTypeValue implements RandomTypeValue {
 

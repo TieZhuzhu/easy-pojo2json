@@ -6,8 +6,11 @@ import com.intellij.openapi.project.Project;
 
 /**
  * IDEA 通知工具。
- * <p>
- * 统一封装插件中的通知展示逻辑，避免业务代码直接依赖通知组细节。
+ * 
+ * @author August Lee
+ * @see Notifier
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class Notifier {
 

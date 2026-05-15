@@ -7,6 +7,11 @@ import java.io.Serializable;
 
 /**
  * 静态字段过滤测试样例。
+ * 
+ * @author August Lee
+ * @see StaticFieldPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 @Data
 public class StaticFieldPOJO implements Serializable {

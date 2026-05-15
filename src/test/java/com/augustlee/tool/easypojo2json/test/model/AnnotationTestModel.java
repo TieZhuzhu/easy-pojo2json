@@ -8,6 +8,11 @@ import static junit.framework.Assert.*;
 
 /**
  * 注解相关能力的断言模型。
+ * 
+ * @author August Lee
+ * @see AnnotationTestModel
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class AnnotationTestModel extends TestModel {
 

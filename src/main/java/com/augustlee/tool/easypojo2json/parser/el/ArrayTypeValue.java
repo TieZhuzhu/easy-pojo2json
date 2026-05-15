@@ -4,6 +4,11 @@ import java.util.List;
 
 /**
  * 数组或集合默认值提供器。
+ * 
+ * @author August Lee
+ * @see ArrayTypeValue
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class ArrayTypeValue implements PresetTypeValue {
 

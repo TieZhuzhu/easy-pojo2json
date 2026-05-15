@@ -2,6 +2,11 @@ package testdata.java;
 
 /**
  * 枚举类型测试样例。
+ * 
+ * @author August Lee
+ * @see EnumTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class EnumTestPOJO {
 
@@ -9,6 +14,11 @@ public class EnumTestPOJO {
 
     /**
      * 枚举值测试样例。
+     * 
+     * @author August Lee
+     * @see Type
+     * @since 2026-05-15 15:29:08
+     *
      */
     public enum Type {
         TYPE_A,

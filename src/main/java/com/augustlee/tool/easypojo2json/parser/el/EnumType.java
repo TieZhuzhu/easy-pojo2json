@@ -10,6 +10,11 @@ import java.util.stream.Collectors;
 
 /**
  * 枚举值默认值提供器。
+ * 
+ * @author August Lee
+ * @see EnumType
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class EnumType implements RandomTypeValue {
 

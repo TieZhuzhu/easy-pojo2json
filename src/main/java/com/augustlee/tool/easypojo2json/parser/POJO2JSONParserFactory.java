@@ -2,8 +2,11 @@ package com.augustlee.tool.easypojo2json.parser;
 
 /**
  * 解析器工厂。
- * <p>
- * 当前实现采用简单单例，确保插件各入口复用同一套解析器能力。
+ * 
+ * @author August Lee
+ * @see POJO2JSONParserFactory
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class POJO2JSONParserFactory {
 

@@ -5,6 +5,11 @@ import java.math.RoundingMode;
 
 /**
  * 小数值默认值提供器。
+ * 
+ * @author August Lee
+ * @see DecimalTypeValue
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class DecimalTypeValue implements RandomTypeValue {
 

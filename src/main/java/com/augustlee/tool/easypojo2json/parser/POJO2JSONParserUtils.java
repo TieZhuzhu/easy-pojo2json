@@ -8,6 +8,11 @@ import java.util.stream.Collectors;
 
 /**
  * 解析器辅助工具。
+ * 
+ * @author August Lee
+ * @see POJO2JSONParserUtils
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class POJO2JSONParserUtils {
 

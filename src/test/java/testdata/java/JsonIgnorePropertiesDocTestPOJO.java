@@ -5,6 +5,11 @@ import java.util.List;
 
 /**
  * JavaDoc 版忽略子属性测试样例。
+ * 
+ * @author August Lee
+ * @see JsonIgnorePropertiesDocTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class JsonIgnorePropertiesDocTestPOJO {
 
@@ -16,6 +21,11 @@ public class JsonIgnorePropertiesDocTestPOJO {
 
     /**
      * 嵌套角色对象测试样例。
+     * 
+     * @author August Lee
+     * @see Role
+     * @since 2026-05-15 15:29:08
+     *
      */
     public class Role {
 

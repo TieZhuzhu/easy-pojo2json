@@ -4,6 +4,11 @@ import java.util.Random;
 
 /**
  * 支持随机示例值的类型提供器。
+ * 
+ * @author August Lee
+ * @see RandomTypeValue
+ * @since 2026-05-15 15:29:08
+ *
  */
 public interface RandomTypeValue extends PresetTypeValue {
 

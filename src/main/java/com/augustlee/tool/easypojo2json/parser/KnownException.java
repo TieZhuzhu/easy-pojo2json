@@ -2,9 +2,11 @@ package com.augustlee.tool.easypojo2json.parser;
 
 /**
  * 插件可预期异常。
- * <p>
- * 这类异常会被动作入口捕获，并以友好的通知形式反馈给用户，
- * 而不是作为未处理异常直接中断插件逻辑。
+ * 
+ * @author August Lee
+ * @see KnownException
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class KnownException extends RuntimeException {
 

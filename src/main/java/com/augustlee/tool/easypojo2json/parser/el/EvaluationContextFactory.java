@@ -12,8 +12,11 @@ import java.util.stream.Collectors;
 
 /**
  * SpEL 运行上下文工厂。
- * <p>
- * 负责为字段名和默认值表达式准备变量环境。
+ * 
+ * @author August Lee
+ * @see EvaluationContextFactory
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class EvaluationContextFactory {
 

@@ -2,6 +2,11 @@ package testdata.java;
 
 /**
  * 基础原始类型数组测试样例。
+ * 
+ * @author August Lee
+ * @see PrimitiveArrayTestPOJO
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class PrimitiveArrayTestPOJO {
 

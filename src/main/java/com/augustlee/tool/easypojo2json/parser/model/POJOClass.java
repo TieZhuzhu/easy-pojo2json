@@ -8,6 +8,11 @@ import java.util.Map;
 
 /**
  * 解析期的类模型。
+ * 
+ * @author August Lee
+ * @see POJOClass
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class POJOClass extends POJOObject {
 

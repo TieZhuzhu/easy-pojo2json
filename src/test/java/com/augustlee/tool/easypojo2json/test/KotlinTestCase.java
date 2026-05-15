@@ -4,6 +4,11 @@ import com.augustlee.tool.easypojo2json.EditorPopupMenuAction;
 
 /**
  * Kotlin 测试入口集合。
+ * 
+ * @author August Lee
+ * @see KotlinTestCase
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class KotlinTestCase extends MyTestCase {
 

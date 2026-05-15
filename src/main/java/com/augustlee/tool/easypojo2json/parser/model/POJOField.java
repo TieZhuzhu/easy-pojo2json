@@ -8,6 +8,11 @@ import java.util.List;
 
 /**
  * 解析期字段模型。
+ * 
+ * @author August Lee
+ * @see POJOField
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class POJOField extends POJOVariable {
 

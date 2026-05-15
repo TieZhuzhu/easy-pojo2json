@@ -4,6 +4,11 @@ import com.intellij.psi.PsiElement;
 
 /**
  * 依赖 PSI 上下文的动态值提供器基类。
+ * 
+ * @author August Lee
+ * @see DynamicTypeValue
+ * @since 2026-05-15 15:29:08
+ *
  */
 public abstract class DynamicTypeValue implements TypeValue {
 

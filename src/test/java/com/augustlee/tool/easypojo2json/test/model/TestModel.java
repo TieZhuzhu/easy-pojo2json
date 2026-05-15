@@ -8,6 +8,11 @@ import static junit.framework.Assert.assertTrue;
 
 /**
  * 测试断言模型基类。
+ * 
+ * @author August Lee
+ * @see TestModel
+ * @since 2026-05-15 15:29:08
+ *
  */
 public class TestModel {
 
