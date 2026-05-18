@@ -1,0 +1,9 @@
+Easy POJO to JSON
+Copyright (c) 2026 August Lee
+
+This repository is distributed under the GNU General Public License v3.0 only.
+
+This repository includes code derived from the pojo2json project.
+Portions Copyright (c) 2019 organics2016.
+The original MIT copyright notice and permission notice are preserved in:
+LICENSES/pojo2json-MIT.txt
